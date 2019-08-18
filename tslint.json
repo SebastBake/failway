@@ -1,0 +1,21 @@
+{
+  "extends": ["tslint:latest"],
+  "rules": {
+    "max-line-length": {
+      "options": [100]
+    },
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "arrow-parens": false,
+    "object-literal-sort-keys": false,
+    "interface-over-type-literal": false,
+    "ordered-imports": false
+  },
+  "jsRules": {
+    "max-line-length": {
+      "options": [100]
+    }
+  }
+}

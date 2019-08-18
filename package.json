@@ -1,0 +1,34 @@
+{
+  "name": "failway",
+  "version": "2.0.1",
+  "description": "A typescript library for Railway Oriented Programming.",
+  "homepage": "https://github.com/SebastBake/failway",
+  "repository": "github:SebastBake/failway",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "author": "Sebastian Baker",
+  "license": "MIT",
+  "keywords": [
+    "pipe",
+    "railway",
+    "rop",
+    "railway oriented programming",
+    "typescript",
+    "maybe",
+    "error handling",
+    "functional"
+  ],
+  "files": [
+    "/dist"
+  ],
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "@types/jest": "^24.0.17"
+  }
+}
