@@ -6,7 +6,9 @@ const SAMPLE_DATA = { testKey: "testVal" };
 const SAMPLE_DATA_2 = { testKey2: "testVal2" };
 
 test("Rail function", async done => {
-  const input = new Promise<typeof SAMPLE_DATA>(resolve => resolve(SAMPLE_DATA));
+  const input = new Promise<typeof SAMPLE_DATA>(resolve =>
+    resolve(SAMPLE_DATA)
+  );
 
   const rail = Rail(SAMPLE_DATA).done();
   expect(rail).toMatchObject({ status: "OK", data: SAMPLE_DATA });
@@ -95,7 +97,9 @@ describe("Synchronous Rail", () => {
 
 describe("Asynchronous Rail", () => {
   it("chains function calls using map", async done => {
-    const input = new Promise<Maybe<typeof SAMPLE_DATA, "OK">>(resolve => resolve(ok(SAMPLE_DATA)));
+    const input = new Promise<Maybe<typeof SAMPLE_DATA, "OK">>(resolve =>
+      resolve(ok(SAMPLE_DATA))
+    );
 
     const thing = await continueAsyncRail(input)
       .map(item => {
@@ -122,7 +126,9 @@ describe("Asynchronous Rail", () => {
   });
 
   it("Skips subsequent maps when an error occurs", async done => {
-    const input = new Promise<Maybe<typeof SAMPLE_DATA, "OK">>(resolve => resolve(ok(SAMPLE_DATA)));
+    const input = new Promise<Maybe<typeof SAMPLE_DATA, "OK">>(resolve =>
+      resolve(ok(SAMPLE_DATA))
+    );
 
     const thing2 = await continueAsyncRail(input)
       .map(async item => {
@@ -144,3 +150,15 @@ describe("Asynchronous Rail", () => {
     done();
   });
 });
+
+const thing2 = Rail(true)
+  .map(item => {
+    if (Math.random() > 0.5) {
+      return ok(SAMPLE_DATA_2);
+    }
+    return err("ERR", SAMPLE_DATA);
+  })
+  .map(item => {
+    return ok(SAMPLE_DATA_2);
+  })
+  .done();

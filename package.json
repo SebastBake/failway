@@ -1,6 +1,6 @@
 {
   "name": "failway",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A typescript library for Railway Oriented Programming.",
   "homepage": "https://github.com/SebastBake/failway",
   "repository": "github:SebastBake/failway",
@@ -25,10 +25,10 @@
     "/dist"
   ],
   "devDependencies": {
+    "@types/jest": "^24.0.17",
     "jest": "^24.9.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
-    "typescript": "^3.5.3",
-    "@types/jest": "^24.0.17"
+    "typescript": "^3.5.3"
   }
 }

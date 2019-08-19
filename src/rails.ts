@@ -6,8 +6,8 @@ type Resolved<T> = T extends Promise<infer U> ? U : T;
 type Rail<M> = {
   done(): M;
   map<M2 extends Maybe<any, any> | Promise<Maybe<any, any>>>(
-    mapper: SyncMapper<OkData<M>, M2>,
-  ): M2 extends Promise<Maybe<any, any>>
+    mapper: SyncMapper<OkData<M>, M2>
+  ): Promise<any> extends M2
     ? AsyncRail<Resolved<M2> | ExcludeOk<M>>
     : Rail<M2 | ExcludeOk<M>>;
 };
@@ -15,25 +15,27 @@ type Rail<M> = {
 type AsyncRail<M> = {
   done(): Promise<M>;
   map<M2 extends Maybe<any, any> | Promise<Maybe<any, any>>>(
-    mapper: SyncMapper<OkData<M>, M2>,
+    mapper: SyncMapper<OkData<M>, M2>
   ): AsyncRail<Resolved<M2> | ExcludeOk<M>>;
 };
 
 export const Rail = <D>(
-  data: D,
-): D extends Promise<any> ? AsyncRail<Ok<Resolved<D>>> : Rail<Ok<D>> => {
+  data: D
+): Promise<any> extends D ? AsyncRail<Ok<Resolved<D>>> : Rail<Ok<D>> => {
   if (data instanceof Promise) {
-    const maybe: Promise<Maybe<Resolved<D>, "OK">> = data.then(ok);
+    const maybe = data.then(ok);
     // @ts-ignore
-    return continueAsyncRail<Ok<Resolved<D>>>(maybe);
+    return continueAsyncRail(maybe);
   } else {
     const maybe = ok(data);
     // @ts-ignore
-    return continueRail<Ok<D>>(maybe);
+    return continueRail(maybe);
   }
 };
 
-export const continueAsyncRail = <M extends Maybe<any, any>>(item: Promise<M>): AsyncRail<M> =>
+export const continueAsyncRail = <M extends Maybe<any, any>>(
+  item: Promise<M>
+): AsyncRail<M> =>
   Object.freeze({
     done() {
       return item;
@@ -48,7 +50,7 @@ export const continueAsyncRail = <M extends Maybe<any, any>>(item: Promise<M>): 
       });
       // @ts-ignore
       return continueAsyncRail(mapped);
-    },
+    }
   });
 
 export const continueRail = <M extends Maybe<any, any>>(item: M): Rail<M> =>
@@ -66,7 +68,7 @@ export const continueRail = <M extends Maybe<any, any>>(item: M): Rail<M> =>
           return continueRail(mapped);
         }
       } else {
-        return continueRail<ExcludeOk<M>>(item as ExcludeOk<M>);
+        return continueRail(item);
       }
-    },
+    }
   });
